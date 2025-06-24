@@ -40,6 +40,7 @@ This repository provides a Python API wrapper and an MCP (Model Context Protocol
     -   `list_torrents`: List all torrents and their details.
     -   `add_torrent`: Add a torrent from a magnet link or a file.
     -   `get_torrent_details`: Get detailed information about a specific torrent.
+    -   `get_torrent_stats`: Get stats/status of a specific torrent.
     -   `pause_torrent`: Pause a torrent.
     -   `start_torrent`: Start a torrent.
     -   `forget_torrent`: Remove a torrent from the list.
@@ -166,7 +167,7 @@ Usable with any MCP-compatible client. Available tools:
 -   `list_torrents`: List all torrents.
 -   `add_torrent`: Add a torrent via magnet link or file path.
 -   `get_torrent_details`: Get details of a specific torrent.
--   `get_torrent_stats`: Get stats of a specific torrent.
+-   `get_torrent_stats`: Get stats/status of a specific torrent.
 -   `pause_torrent`: Pause a torrent.
 -   `start_torrent`: Start a torrent.
 -   `forget_torrent`: Forget a torrent.
