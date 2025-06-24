@@ -2,11 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2025-06-24
+
+### 🚀 Features
+
+- Add get_torrent_stats endpoint to fetch torrent statistics
+
+### 🚜 Refactor
+
+- Standardize os module imports and usage in client.py
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump rqbit-mcp version to 0.3.0
+
 ## [0.2.0] - 2025-06-24
 
 ### 🚀 Features
 
 - Initialize rqbit MCP server with API wrapper and Docker setup
+
+### 📚 Documentation
+
+- Add CHANGELOG.md to track project changes and releases
 
 ### 🧪 Testing
 
