@@ -1,4 +1,4 @@
-from os import getenv, path
+import os
 from typing import Any, AsyncGenerator
 
 import httpx
@@ -14,7 +14,7 @@ class RqbitClient:
         """Initialize the RqbitClient."""
         if base_url is None:
             load_dotenv()
-            base_url = getenv("RQBIT_URL", "http://localhost:3030")
+            base_url = os.getenv("RQBIT_URL", "http://localhost:3030")
         self.base_url = base_url
         self._client = httpx.AsyncClient(base_url=base_url, timeout=timeout)
 
@@ -111,7 +111,7 @@ class RqbitClient:
         """Add a torrent from a magnet, HTTP URL, or local file."""
         if content:
             return await self._request("POST", "/torrents", content=content)
-        if path.exists(url_or_path):
+        if os.path.exists(url_or_path):
             with open(url_or_path, "rb") as f:
                 return await self._request("POST", "/torrents", content=f.read())
         return await self._request("POST", "/torrents", content=url_or_path)
