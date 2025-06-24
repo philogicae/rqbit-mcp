@@ -5,12 +5,13 @@
 [![PyPI](https://badge.fury.io/py/rqbit-mcp.svg?cache-control=no-cache)](https://badge.fury.io/py/rqbit-mcp)
 [![Actions status](https://github.com/philogicae/rqbit-mcp/actions/workflows/python-package-ci.yml/badge.svg?cache-control=no-cache)](https://github.com/philogicae/rqbit-mcp/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/philogicae/rqbit-mcp)
 
 This repository provides a Python API wrapper and an MCP (Model Context Protocol) server for the [rqbit](https://github.com/ikatson/rqbit) torrent client. It allows for easy integration into other applications or services.
 
-<!-- <a href="https://glama.ai/mcp/servers/@philogicae/rqbit-mcp">
+<a href="https://glama.ai/mcp/servers/@philogicae/rqbit-mcp">
   <img width="380" height="200" src="https://glama.ai/mcp/servers/@philogicae/rqbit-mcp/badge?cache-control=no-cache" alt="Rqbit MCP server" />
-</a> -->
+</a>
 
 ## Table of Contents
 
