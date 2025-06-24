@@ -35,6 +35,13 @@ async def get_torrent_details(torrent_id: str) -> dict[str, Any]:
 
 
 @mcp.tool()
+async def get_torrent_stats(torrent_id: str) -> dict[str, Any]:
+    """Get stats and status for a specific torrent by its ID or infohash."""
+    logger.info(f"Getting stats/status for torrent: {torrent_id}")
+    return await rqbit_client.get_torrent_stats(torrent_id)
+
+
+@mcp.tool()
 async def delete_torrent(torrent_id: str) -> None:
     """Delete a torrent and its files."""
     logger.info(f"Deleting torrent: {torrent_id}")

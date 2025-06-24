@@ -166,6 +166,7 @@ Usable with any MCP-compatible client. Available tools:
 -   `list_torrents`: List all torrents.
 -   `add_torrent`: Add a torrent via magnet link or file path.
 -   `get_torrent_details`: Get details of a specific torrent.
+-   `get_torrent_stats`: Get stats of a specific torrent.
 -   `pause_torrent`: Pause a torrent.
 -   `start_torrent`: Start a torrent.
 -   `forget_torrent`: Forget a torrent.
