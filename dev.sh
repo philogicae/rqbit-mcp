@@ -1,0 +1,1 @@
+uv lock && uv sync -U --link-mode=copy && uv run ruff format rqbit_client && uv run ruff check rqbit_client --fix && uv run mypy rqbit_client && uv run pytest rqbit_client

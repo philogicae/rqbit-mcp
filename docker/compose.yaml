@@ -1,0 +1,45 @@
+name: rqbit-mcp
+
+x-logging:
+  &default-logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  rqbit-mcp:
+    container_name: rqbit-mcp
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: rqbit-mcp
+    restart: unless-stopped
+    ports:
+      - 8765:8000
+    env_file:
+      - ../.env
+    <<: [*default-logging]
+    network_mode: host
+
+  rqbit:
+    container_name: rqbit
+    image: ikatson/rqbit:latest
+    ports:
+      - 3030:3030 # HTTP API port
+      - 4240:4240 # TCP/uTP BitTorrent port
+    environment:
+      RQBIT_UPNP_SERVER_ENABLE: "true"
+      RQBIT_UPNP_SERVER_FRIENDLY_NAME: rqbit-docker
+      RQBIT_HTTP_API_LISTEN_ADDR: 0.0.0.0:3030
+    volumes:
+      - rqbit_db:/home/rqbit/db
+      - rqbit_cache:/home/rqbit/cache
+      - /media:/home/rqbit/downloads # change /media to your download directory
+    <<: [*default-logging]
+    network_mode: host # required for UPnP
+
+volumes:
+  rqbit_db:
+  rqbit_cache:

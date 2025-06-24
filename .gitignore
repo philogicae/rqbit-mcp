@@ -1,0 +1,19 @@
+# IDE
+.vscode
+
+# Python
+*.pyc
+**/__pycache__
+*.pkl
+dist
+build
+
+# Ruff, Mypy, Pytest
+.ruff_cache
+.mypy_cache
+.pytest_cache
+
+# Envs
+.env
+.venv
+example.py

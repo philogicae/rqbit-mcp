@@ -1,0 +1,40 @@
+[project]
+name = "rqbit-mcp"
+version = "0.2.0"
+description = "Python wrapper & MCP server for the rqbit API"
+authors = [{ name = "philogicae" }]
+requires-python = ">=3.10,<4.0"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "httpx[http2]>=0.28.1",
+    "python-dotenv==1.1.1",
+    "fastmcp==2.9.0",
+]
+
+[project.urls]
+Repository = "https://github.com/philogicae/rqbit-mcp"
+Release = "https://github.com/philogicae/rqbit-mcp/releases"
+DeepWiki = "https://deepwiki.com/philogicae/rqbit-mcp"
+
+[project.scripts]
+rqbit-mcp = "rqbit_client.__main__:cli"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.13",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.0.0",
+    "mypy>=1.16.1",
+]
+
+[tool.hatch.build]
+include = ["rqbit_client"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
