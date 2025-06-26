@@ -26,6 +26,7 @@ services:
   rqbit:
     container_name: rqbit
     image: ikatson/rqbit:latest
+    restart: unless-stopped
     ports:
       - 3030:3030 # HTTP API port
       - 4240:4240 # TCP/uTP BitTorrent port
