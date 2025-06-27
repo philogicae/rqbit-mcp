@@ -38,7 +38,7 @@ This repository provides a Python API wrapper and an MCP (Model Context Protocol
 -   MCP server interface for standardized communication (stdio, sse, streamable-http)
 -   Tools:
     -   `list_torrents`: List all torrents and their details.
-    -   `add_torrent`: Add a torrent from a magnet link or a file.
+    -   `download_torrent`: Download a torrent from a magnet link or a file.
     -   `get_torrent_details`: Get detailed information about a specific torrent.
     -   `get_torrent_stats`: Get stats/status of a specific torrent.
     -   `pause_torrent`: Pause a torrent.
@@ -139,14 +139,18 @@ from rqbit_client.wrapper import RqbitClient
 async def main():
     # Read the RQBIT_URL from the .env file or fallback to default (http://localhost:3030)
     async with RqbitClient() as client:
+        # Download a torrent
+        magnet_link = "magnet:?xt=urn:btih:..."
+        torrent = await client.download_torrent(magnet_link)
+        print(torrent)
+
+        # Check status
+        status = await client.get_torrent_stats(torrent["id"])
+        print(status)
+
         # List torrents
         torrents = await client.list_torrents()
         print(torrents)
-
-        # Add a torrent
-        magnet_link = "magnet:?xt=urn:btih:..."
-        new_torrent = await client.add_torrent(magnet_link)
-        print(new_torrent)
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -165,7 +169,7 @@ RqbitMCP.run(transport="sse") # 'stdio', 'sse', or 'streamable-http'
 Usable with any MCP-compatible client. Available tools:
 
 -   `list_torrents`: List all torrents.
--   `add_torrent`: Add a torrent via magnet link or file path.
+-   `download_torrent`: Download a torrent via magnet link or file path.
 -   `get_torrent_details`: Get details of a specific torrent.
 -   `get_torrent_stats`: Get stats/status of a specific torrent.
 -   `pause_torrent`: Pause a torrent.
