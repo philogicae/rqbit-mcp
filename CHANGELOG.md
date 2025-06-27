@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2025-06-27
+
+### 🚀 Features
+
+- Add restart policy for rqbit container to ensure continuous operation
+
+### 🐛 Bug Fixes
+
+- Typos
+- Ports not needed in docker compose
+
+### 🚜 Refactor
+
+- Rename add_torrent to download_torrent and improve error handling
+- Rename add_torrent to download_torrent for clarity and update examples
+
+### ⚙️ Miscellaneous Tasks
+
+- Update mcp to v1.10.0 and add jsonschema dependencies
+- Upgrade fastmcp to 2.9.2 and downgrade mcp to 1.9.4
+
 ## [0.3.0] - 2025-06-24
 
 ### 🚀 Features
@@ -15,6 +36,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Bump rqbit-mcp version to 0.3.0
+- Prepare release v0.3.0 with torrent stats endpoint and client refactoring
 
 ## [0.2.0] - 2025-06-24
 
