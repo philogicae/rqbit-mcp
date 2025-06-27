@@ -27,9 +27,9 @@ services:
     container_name: rqbit
     image: ikatson/rqbit:latest
     restart: unless-stopped
-    ports:
-      - 3030:3030 # HTTP API port
-      - 4240:4240 # TCP/uTP BitTorrent port
+    #ports: # Not needed on host
+    #  - 3030:3030 # HTTP API port
+    #  - 4240:4240 # TCP/uTP BitTorrent port
     environment:
       RQBIT_UPNP_SERVER_ENABLE: "true"
       RQBIT_UPNP_SERVER_FRIENDLY_NAME: rqbit-docker
