@@ -27,7 +27,9 @@ class RqbitClient:
                 return None
             if response.headers.get("content-type") == "application/json":
                 return response.json()
-            return response.content
+            if response.headers.get("content-type") == "application/octet-stream":
+                return await response.read()  # type: ignore
+            return response.text
         except httpx.HTTPStatusError as e:
             raise RqbitHTTPError(
                 f"HTTP error: {e.response.status_code} - {e.response.text}",
@@ -63,141 +65,173 @@ class RqbitClient:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
 
-    # General
-    async def get_apis(self) -> dict[str, Any]:
-        """list all available APIs."""
-        return await self._request("GET", "/")
+    async def _safe_request(self, method: str, path: str, **kwargs) -> Any | str | None:
+        try:
+            return await self._request(method, path, **kwargs)
+        except RqbitHTTPError as e:
+            return str(e)
 
-    async def get_global_stats(self) -> dict[str, Any]:
+    async def _safe_stream_request(
+        self, method: str, path: str, **kwargs
+    ) -> AsyncGenerator[bytes, None] | str:
+        try:
+            async for chunk in self._stream_request(method, path, **kwargs):
+                yield chunk
+        except RqbitHTTPError as e:
+            yield str(e).encode("utf-8")
+
+    # General
+    async def get_apis(self) -> dict[str, Any] | str:
+        """list all available APIs."""
+        return await self._safe_request("GET", "/")  # type: ignore
+
+    async def get_global_stats(self) -> dict[str, Any] | str:
         """Get global session stats."""
-        return await self._request("GET", "/stats")
+        return await self._safe_request("GET", "/stats")  # type: ignore
 
     async def get_metrics(self) -> str:
         """Get Prometheus metrics."""
-        content = await self._request("GET", "/metrics")
-        return content.decode("utf-8")
+        content = await self._safe_request("GET", "/metrics")
+        if isinstance(content, str):
+            return content
+        return content  # type: ignore
 
-    async def stream_logs(self) -> AsyncGenerator[bytes, None]:
+    async def stream_logs(self) -> AsyncGenerator[bytes, None] | str:
         """Continuously stream logs."""
-        async for chunk in self._stream_request("GET", "/stream_logs"):
-            yield chunk
+        async for chunk in self._safe_stream_request("GET", "/stream_logs"):  # type: ignore
+            yield chunk  # type: ignore
 
-    async def set_rust_log(self, log_level: str) -> None:
+    async def set_rust_log(self, log_level: str) -> None | str:
         """Set RUST_LOG post-launch for debugging."""
-        await self._request("POST", "/rust_log", content=log_level)
+        return await self._safe_request("POST", "/rust_log", content=log_level)
 
     # DHT
-    async def get_dht_stats(self) -> dict[str, Any]:
+    async def get_dht_stats(self) -> dict[str, Any] | str:
         """Get DHT stats."""
-        return await self._request("GET", "/dht/stats")
+        return await self._safe_request("GET", "/dht/stats")  # type: ignore
 
-    async def get_dht_table(self) -> list[dict[str, Any]]:
+    async def get_dht_table(self) -> list[dict[str, Any]] | str:
         """Get DHT routing table."""
-        return await self._request("GET", "/dht/table")
+        return await self._safe_request("GET", "/dht/table")  # type: ignore
 
     # Torrents
-    async def list_torrents(self) -> list[dict[str, Any]]:
+    async def list_torrents(self) -> list[dict[str, Any]] | str:
         """list all torrents."""
-        return await self._request("GET", "/torrents")
+        return await self._safe_request("GET", "/torrents")  # type: ignore
 
     async def get_torrents_playlist(self) -> str:
         """Get a playlist for all torrents for supported players."""
-        content = await self._request("GET", "/torrents/playlist")
-        return content.decode("utf-8")
+        content = await self._safe_request("GET", "/torrents/playlist")
+        if isinstance(content, str):
+            return content
+        return content  # type: ignore
 
     async def add_torrent(
         self, url_or_path: str, content: bytes | None = None
-    ) -> dict[str, Any]:
+    ) -> dict[str, Any] | str:
         """Add a torrent from a magnet, HTTP URL, or local file."""
         if content:
-            return await self._request("POST", "/torrents", content=content)
+            return await self._safe_request("POST", "/torrents", content=content)  # type: ignore
         if os.path.exists(url_or_path):
-            with open(url_or_path, "rb") as f:
-                return await self._request("POST", "/torrents", content=f.read())
-        return await self._request("POST", "/torrents", content=url_or_path)
+            try:
+                with open(url_or_path, "rb") as f:
+                    return await self._safe_request(
+                        "POST", "/torrents", content=f.read()
+                    )  # type: ignore
+            except FileNotFoundError:
+                return f"Error: File not found at {url_or_path}"
+            except IOError as e:
+                return f"Error reading file {url_or_path}: {e}"
+        return await self._safe_request("POST", "/torrents", content=url_or_path)  # type: ignore
 
-    async def create_torrent(self, folder_path: str) -> dict[str, Any]:
+    async def create_torrent(self, folder_path: str) -> dict[str, Any] | str:
         """Create a torrent from a local folder and start seeding."""
-        return await self._request("POST", "/torrents/create", content=folder_path)
+        return await self._safe_request("POST", "/torrents/create", content=folder_path)  # type: ignore
 
-    async def resolve_magnet(self, magnet_link: str) -> bytes:
+    async def resolve_magnet(self, magnet_link: str) -> bytes | str:
         """Resolve a magnet link to torrent file bytes."""
-        return await self._request(
+        return await self._safe_request(
             "POST", "/torrents/resolve_magnet", content=magnet_link
-        )
+        )  # type: ignore
 
     # Torrent specific
-    async def get_torrent_details(self, id_or_infohash: str) -> dict[str, Any]:
+    async def get_torrent_details(self, id_or_infohash: str) -> dict[str, Any] | str:
         """Get details for a specific torrent."""
-        return await self._request("GET", f"/torrents/{id_or_infohash}")
+        return await self._safe_request("GET", f"/torrents/{id_or_infohash}")  # type: ignore
 
-    async def get_torrent_stats(self, id_or_infohash: str) -> dict[str, Any]:
+    async def get_torrent_stats(self, id_or_infohash: str) -> dict[str, Any] | str:
         """Get stats for a specific torrent."""
-        return await self._request("GET", f"/torrents/{id_or_infohash}/stats/v1")
+        return await self._safe_request("GET", f"/torrents/{id_or_infohash}/stats/v1")  # type: ignore
 
-    async def get_torrent_haves(self, id_or_infohash: str) -> list[bool]:
+    async def get_torrent_haves(self, id_or_infohash: str) -> list[bool] | str:
         """Get the bitfield of have pieces for a torrent."""
-        return await self._request("GET", f"/torrents/{id_or_infohash}/haves")
+        return await self._safe_request("GET", f"/torrents/{id_or_infohash}/haves")  # type: ignore
 
-    async def get_torrent_metadata(self, id_or_infohash: str) -> bytes:
+    async def get_torrent_metadata(self, id_or_infohash: str) -> bytes | str:
         """Download the .torrent file for a torrent."""
-        return await self._request("GET", f"/torrents/{id_or_infohash}/metadata")
+        return await self._safe_request("GET", f"/torrents/{id_or_infohash}/metadata")  # type: ignore
 
     async def get_torrent_playlist(self, id_or_infohash: str) -> str:
         """Get a playlist for a specific torrent."""
-        content = await self._request("GET", f"/torrents/{id_or_infohash}/playlist")
-        return content.decode("utf-8")
+        content = await self._safe_request(
+            "GET", f"/torrents/{id_or_infohash}/playlist"
+        )
+        if isinstance(content, str):
+            return content
+        return content  # type: ignore
 
     async def stream_torrent_file(
         self, id_or_infohash: str, file_idx: int, range_header: str | None = None
-    ) -> AsyncGenerator[bytes, None]:
+    ) -> AsyncGenerator[bytes, None] | str:
         """Stream a file from a torrent."""
         headers = {"Range": range_header} if range_header else {}
         path = f"/torrents/{id_or_infohash}/stream/{file_idx}"
-        async for chunk in self._stream_request("GET", path, headers=headers):
+        async for chunk in self._safe_stream_request("GET", path, headers=headers):  # type: ignore
             yield chunk
 
-    async def pause_torrent(self, id_or_infohash: str) -> None:
+    async def pause_torrent(self, id_or_infohash: str) -> None | str:
         """Pause a torrent."""
-        await self._request("POST", f"/torrents/{id_or_infohash}/pause")
+        return await self._safe_request("POST", f"/torrents/{id_or_infohash}/pause")
 
-    async def start_torrent(self, id_or_infohash: str) -> None:
+    async def start_torrent(self, id_or_infohash: str) -> None | str:
         """Start (resume) a torrent."""
-        await self._request("POST", f"/torrents/{id_or_infohash}/start")
+        return await self._safe_request("POST", f"/torrents/{id_or_infohash}/start")
 
-    async def forget_torrent(self, id_or_infohash: str) -> None:
+    async def forget_torrent(self, id_or_infohash: str) -> None | str:
         """Forget a torrent, keeping the files."""
-        await self._request("POST", f"/torrents/{id_or_infohash}/forget")
+        return await self._safe_request("POST", f"/torrents/{id_or_infohash}/forget")
 
-    async def delete_torrent(self, id_or_infohash: str) -> None:
+    async def delete_torrent(self, id_or_infohash: str) -> None | str:
         """Delete a torrent and its files."""
-        await self._request("POST", f"/torrents/{id_or_infohash}/delete")
+        return await self._safe_request("POST", f"/torrents/{id_or_infohash}/delete")
 
-    async def add_peers(self, id_or_infohash: str, peers: list[str]) -> None:
+    async def add_peers(self, id_or_infohash: str, peers: list[str]) -> None | str:
         """Add peers to a torrent."""
         content = "\n".join(peers)
-        await self._request(
+        return await self._safe_request(
             "POST", f"/torrents/{id_or_infohash}/add_peers", content=content
         )
 
     async def update_only_files(
         self, id_or_infohash: str, file_indices: list[int]
-    ) -> None:
+    ) -> None | str:
         """Change the selection of files to download."""
-        await self._request(
+        return await self._safe_request(
             "POST",
             f"/torrents/{id_or_infohash}/update_only_files",
             json={"only_files": file_indices},
         )
 
     # Peer stats
-    async def get_peer_stats(self, id_or_infohash: str) -> list[dict[str, Any]]:
+    async def get_peer_stats(self, id_or_infohash: str) -> list[dict[str, Any]] | str:
         """Get per-peer stats for a torrent."""
-        return await self._request("GET", f"/torrents/{id_or_infohash}/peer_stats")
+        return await self._safe_request("GET", f"/torrents/{id_or_infohash}/peer_stats")  # type: ignore
 
     async def get_peer_stats_prometheus(self, id_or_infohash: str) -> str:
         """Get per-peer stats in Prometheus format."""
-        content = await self._request(
+        content = await self._safe_request(
             "GET", f"/torrents/{id_or_infohash}/peer_stats/prometheus"
         )
-        return content.decode("utf-8")
+        if isinstance(content, str):
+            return content
+        return content  # type: ignore
