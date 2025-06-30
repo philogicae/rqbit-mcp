@@ -44,7 +44,8 @@ This repository provides a Python API wrapper and an MCP (Model Context Protocol
     -   `get_torrent_stats`: Get stats/status of a specific torrent.
     -   `pause_torrent`: Pause a torrent.
     -   `start_torrent`: Start a torrent.
-    -   `forget_torrent`: Remove a torrent from the list.
+    -   `forget_torrent`: Forget a torrent, keeping the files.
+    -   `delete_torrent`: Delete a torrent and its files.
 
 ## Setup
 
@@ -183,7 +184,8 @@ Usable with any MCP-compatible client. Available tools:
 -   `get_torrent_stats`: Get stats/status of a specific torrent.
 -   `pause_torrent`: Pause a torrent.
 -   `start_torrent`: Start a torrent.
--   `forget_torrent`: Forget a torrent.
+-   `forget_torrent`: Forget a torrent, keeping the files.
+-   `delete_torrent`: Delete a torrent and its files.
 
 #### Example with Windsurf
 
