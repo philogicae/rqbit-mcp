@@ -1,7 +1,13 @@
 name: rqbit-mcp
 
-x-logging:
-  &default-logging
+x-dns: &default-dns
+  dns:
+    - 9.9.9.9
+    - 149.112.112.112
+    - 2620:fe::fe
+    - 2620:fe::9
+
+x-logging: &default-logging
   logging:
     driver: "json-file"
     options:
@@ -30,15 +36,17 @@ services:
     #ports: # Not needed on host
     #  - 3030:3030 # HTTP API port
     #  - 4240:4240 # TCP/uTP BitTorrent port
+    env_file:
+      - ../.env
     environment:
-      RQBIT_UPNP_SERVER_ENABLE: "true"
+      RQBIT_UPNP_SERVER_ENABLE: true
       RQBIT_UPNP_SERVER_FRIENDLY_NAME: rqbit-docker
       RQBIT_HTTP_API_LISTEN_ADDR: 0.0.0.0:3030
     volumes:
       - rqbit_db:/home/rqbit/db
       - rqbit_cache:/home/rqbit/cache
       - /media:/home/rqbit/downloads # change /media to your download directory
-    <<: [*default-logging]
+    <<: [*default-dns, *default-logging]
     network_mode: host # required for UPnP
 
 volumes:

@@ -1,4 +1,5 @@
 import os
+from base64 import b64encode
 from typing import Any, AsyncGenerator
 
 import httpx
@@ -16,7 +17,16 @@ class RqbitClient:
             load_dotenv()
             base_url = os.getenv("RQBIT_URL", "http://localhost:3030")
         self.base_url = base_url
-        self._client = httpx.AsyncClient(base_url=base_url, timeout=timeout)
+        headers = {}
+        basic_auth = os.getenv("RQBIT_HTTP_BASIC_AUTH_USERPASS")
+        if basic_auth:
+            auth_bytes = basic_auth.encode("ascii")
+            auth_base64 = b64encode(auth_bytes).decode("ascii")
+            headers["Authorization"] = f"Basic {auth_base64}"
+
+        self._client = httpx.AsyncClient(
+            base_url=base_url, timeout=timeout, headers=headers
+        )
 
     async def _request(self, method: str, path: str, **kwargs) -> Any:
         """Make a regular API request."""

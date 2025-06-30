@@ -1,4 +1,5 @@
 import logging
+from json import dumps
 from typing import Any
 
 from fastmcp import FastMCP
@@ -8,24 +9,24 @@ from .wrapper import RqbitClient
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("RqbitMCP")
 
-mcp: FastMCP[Any] = FastMCP("RqbitClient")
+mcp: FastMCP[Any] = FastMCP("Rqbit")
 
 rqbit_client = RqbitClient()
 
 
 @mcp.tool()
-async def list_torrents() -> list[dict[str, Any]] | str:
+async def list_torrents() -> str:
     """List all torrents."""
     logger.info("Listing all torrents")
     result = await rqbit_client.list_torrents()
     if isinstance(result, str):
         logger.error(f"Error listing torrents: {result}")
         return f"Error listing torrents: {result}"
-    return result
+    return dumps(result)
 
 
 @mcp.tool()
-async def download_torrent(magnet_link: str) -> dict[str, Any] | str:
+async def download_torrent(magnet_link: str) -> str:
     """Download a torrent from a magnet link."""
     logger.info(f"Downloading torrent from magnet link: {magnet_link}")
     result = await rqbit_client.add_torrent(magnet_link)
@@ -33,11 +34,11 @@ async def download_torrent(magnet_link: str) -> dict[str, Any] | str:
         error = f"Error downloading torrent {magnet_link}: {result}"
         logger.error(error)
         return error
-    return result
+    return dumps(result)
 
 
 @mcp.tool()
-async def get_torrent_details(torrent_id: str) -> dict[str, Any] | str:
+async def get_torrent_details(torrent_id: str) -> str:
     """Get details for a specific torrent by its ID or infohash."""
     logger.info(f"Getting details for torrent: {torrent_id}")
     result = await rqbit_client.get_torrent_details(torrent_id)
@@ -45,11 +46,11 @@ async def get_torrent_details(torrent_id: str) -> dict[str, Any] | str:
         error = f"Error getting torrent details {torrent_id}: {result}"
         logger.error(error)
         return error
-    return result
+    return dumps(result)
 
 
 @mcp.tool()
-async def get_torrent_stats(torrent_id: str) -> dict[str, Any] | str:
+async def get_torrent_stats(torrent_id: str) -> str:
     """Get stats and status for a specific torrent by its ID or infohash."""
     logger.info(f"Getting stats/status for torrent: {torrent_id}")
     result = await rqbit_client.get_torrent_stats(torrent_id)
@@ -57,7 +58,7 @@ async def get_torrent_stats(torrent_id: str) -> dict[str, Any] | str:
         error = f"Error getting torrent stats {torrent_id}: {result}"
         logger.error(error)
         return error
-    return result
+    return dumps(result)
 
 
 @mcp.tool()
