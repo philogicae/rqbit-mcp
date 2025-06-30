@@ -23,6 +23,7 @@ This repository provides a Python API wrapper and an MCP (Model Context Protocol
     - [Install from PyPI (Recommended)](#install-from-pypi-recommended)
     - [For Local Development](#for-local-development)
     - [For Docker](#for-docker)
+- [Environment Variables](#environment-variables)
 - [Usage](#usage)
   - [As Python API Wrapper](#as-python-api-wrapper)
   - [As MCP Server](#as-mcp-server)
@@ -127,6 +128,14 @@ cp .env.example .env
 ```bash
 docker-compose -f docker/compose.yaml up --build [-d]
 ```
+
+## Environment Variables
+
+- `RQBIT_URL`: The URL of the rqbit instance (e.g., `http://localhost:3030`).
+- `RQBIT_HTTP_BASIC_AUTH_USERPASS`: The username and password for basic authentication, in the format `user:pass`.
+- `RQBIT_UPNP_SERVER_ENABLE`: Enables or disables the UPnP server (e.g., `true` or `false`).
+- `RQBIT_UPNP_SERVER_FRIENDLY_NAME`: The friendly name for the UPnP server.
+- `RQBIT_HTTP_API_LISTEN_ADDR`: The listen address for the HTTP API (e.g., `0.0.0.0:3030`).
 
 ## Usage
 
