@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2025-07-01
+
+### 🚀 Features
+
+- Add HTTP basic auth support and standardize JSON string responses
+
 ## [0.4.0] - 2025-06-27
 
 ### 🚀 Features
@@ -22,6 +28,7 @@ All notable changes to this project will be documented in this file.
 
 - Update mcp to v1.10.0 and add jsonschema dependencies
 - Upgrade fastmcp to 2.9.2 and downgrade mcp to 1.9.4
+- Update changelog for v0.4.0 with restart policy and API improvements
 
 ## [0.3.0] - 2025-06-24
 
