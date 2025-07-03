@@ -140,19 +140,20 @@ class RqbitClient:
         self, url_or_path: str, content: bytes | None = None
     ) -> dict[str, Any] | str:
         """Add a torrent from a magnet, HTTP URL, or local file."""
+        url = "/torrents?&overwrite=true"
+        if url_or_path.startswith("http"):
+            url += "&is_url=true"
         if content:
-            return await self._safe_request("POST", "/torrents", content=content)  # type: ignore
+            return await self._safe_request("POST", url, content=content)  # type: ignore
         if os.path.exists(url_or_path):
             try:
                 with open(url_or_path, "rb") as f:
-                    return await self._safe_request(
-                        "POST", "/torrents", content=f.read()
-                    )  # type: ignore
+                    return await self._safe_request("POST", url, content=f.read())  # type: ignore
             except FileNotFoundError:
                 return f"Error: File not found at {url_or_path}"
             except IOError as e:
                 return f"Error reading file {url_or_path}: {e}"
-        return await self._safe_request("POST", "/torrents", content=url_or_path)  # type: ignore
+        return await self._safe_request("POST", url, content=url_or_path)  # type: ignore
 
     async def create_torrent(self, folder_path: str) -> dict[str, Any] | str:
         """Create a torrent from a local folder and start seeding."""
