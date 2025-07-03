@@ -2,11 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.0] - 2025-07-01
+## [0.6.0] - 2025-07-03
+
+### 📚 Documentation
+
+- Add environment variables section to README.md
+- Clarify difference between forget_torrent and new delete_torrent commands
+
+### ⚙️ Miscellaneous Tasks
+
+- Update dependencies, move/update docker setup, update readme
+
+## [0.5.0] - 2025-06-30
 
 ### 🚀 Features
 
 - Add HTTP basic auth support and standardize JSON string responses
+
+### 📚 Documentation
+
+- Add changelog entry for v0.5.0 with HTTP auth and JSON response features
 
 ## [0.4.0] - 2025-06-27
 
