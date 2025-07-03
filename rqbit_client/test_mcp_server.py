@@ -17,7 +17,7 @@ async def test_list_torrents(mcp_client: Client[Any]) -> None:
     """Test the 'list_torrents' tool."""
     # async with mcp_client as client:
     # result = await client.call_tool("list_torrents")
-    # assert result is not None and len(result[0].text) > 8  # Success
+    # assert result is not None and len(result.content[0].text) > 8  # Success
     assert True
 
 

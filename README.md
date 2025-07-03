@@ -51,7 +51,7 @@ This repository provides a Python API wrapper and an MCP (Model Context Protocol
 
 ### Prerequisites
 
--   An running instance of [rqbit](https://github.com/ikatson/rqbit).
+-   An running instance of [rqbit](https://github.com/ikatson/rqbit). (Included in docker compose)
 -   Python 3.10+ (required for PyPI install).
 -   [`uv`](https://github.com/astral-sh/uv) (for local development)
 
@@ -59,11 +59,18 @@ This repository provides a Python API wrapper and an MCP (Model Context Protocol
 
 This application requires the URL of your `rqbit` instance.
 
-**Set Environment Variable**: The application reads the URL from the `RQBIT_URL` environment variable. The recommended way to set this is by creating a `.env` file in your project's root directory. The application will load it automatically.
+**Set Environment Variable**: Copy `.env.example` to `.env` in your project's root directory and edit it with your settings. The application will automatically load variables from `.env`:
+- MCP Server:
+  - `RQBIT_URL`: The URL of the rqbit instance (Default: `http://localhost:3030`).
+  - `RQBIT_HTTP_BASIC_AUTH_USERPASS`: If setup in rqbit instance.
+- Rqbit Instance:
+  - `RQBIT_HTTP_BASIC_AUTH_USERPASS`: The username and password for basic authentication, in the format `username:password`.
+  - `RQBIT_HTTP_API_LISTEN_ADDR`: The listen address for the HTTP API (e.g., `0.0.0.0:3030`).
+  - `RQBIT_UPNP_SERVER_ENABLE`: Enables or disables the UPnP server (e.g., `true` or `false`).
+  - `RQBIT_UPNP_SERVER_FRIENDLY_NAME`: The friendly name for the UPnP server (e.g., `rqbit-media`).
+  - `RQBIT_EXPERIMENTAL_UTP_LISTEN_ENABLE`: Enables or disables the uTP listener (Default: `false`).
+  - Check [rqbit](https://github.com/ikatson/rqbit) for other variables and more information.
 
-```env
-RQBIT_URL=http://localhost:3030
-```
 
 ### Installation
 
@@ -81,7 +88,7 @@ pip install rqbit-mcp
 ```env
 RQBIT_URL=http://localhost:3030
 ```
-3.  Run the MCP server (with stdio):
+3.  Run the MCP server (default: stdio):
 ```bash
 python -m rqbit_client
 ```
@@ -98,14 +105,13 @@ cd rqbit-mcp
 ```
 2.  Install dependencies using `uv`:
 ```bash
-uv sync
+uv sync --locked
 ```
-3.  Create your configuration file by copying the example and add your `rqbit` URL:
+3.  Create your configuration file by copying the example and add your settings:
 ```bash
 cp .env.example .env
 ```
-
-4.  Run the MCP server (stdio):
+4.  Run the MCP server (default: stdio):
 ```bash
 uv run -m rqbit_client
 ```
@@ -120,23 +126,18 @@ compose.yaml includes [rqbit](https://github.com/ikatson/rqbit) torrent client.
 git clone https://github.com/philogicae/rqbit-mcp.git
 cd rqbit-mcp
 ```
-2.  Create your configuration file by copying the example and add your `rqbit` URL:
+2.  Create your configuration file by copying the example and add your settings:
 ```bash
 cp .env.example .env
 ```
-
-3.  Build and run the container using Docker Compose (default port: 8765):
+3.  Build and run the container using Docker Compose (default port: 8000):
 ```bash
-docker-compose -f docker/compose.yaml up --build [-d]
+docker compose up --build -d
 ```
-
-## Environment Variables
-
-- `RQBIT_URL`: The URL of the rqbit instance (e.g., `http://localhost:3030`).
-- `RQBIT_HTTP_BASIC_AUTH_USERPASS`: The username and password for basic authentication, in the format `user:pass`.
-- `RQBIT_UPNP_SERVER_ENABLE`: Enables or disables the UPnP server (e.g., `true` or `false`).
-- `RQBIT_UPNP_SERVER_FRIENDLY_NAME`: The friendly name for the UPnP server.
-- `RQBIT_HTTP_API_LISTEN_ADDR`: The listen address for the HTTP API (e.g., `0.0.0.0:3030`).
+4.  Access container logs:
+```bash
+docker logs rqbit-mcp -f
+```
 
 ## Usage
 
@@ -195,17 +196,20 @@ Configuration:
   "mcpServers": {
     ...
     # with stdio (only requires uv)
-    "mcp-rqbit": {
+    "rqbit-mcp": {
       "command": "uvx",
       "args": [ "rqbit-mcp" ],
-      "env": { "RQBIT_URL": "http://localhost:3030" } # Default rqbit URL
+      "env": { 
+        "RQBIT_URL": "http://localhost:3030", # (Optional) Default rqbit instance URL
+        "RQBIT_HTTP_BASIC_AUTH_USERPASS": "username:password" # (Optional) Only if setup in rqbit instance
+      }
     },
     # with sse transport (requires installation)
-    "mcp-rqbit": {
+    "rqbit-mcp": {
       "serverUrl": "http://127.0.0.1:8000/sse"
     },
     # with streamable-http transport (requires installation)
-    "mcp-rqbit": {
+    "rqbit-mcp": {
       "serverUrl": "http://127.0.0.1:8000/mcp" 
     },
     ...

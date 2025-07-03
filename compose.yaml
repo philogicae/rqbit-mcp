@@ -17,15 +17,13 @@ x-logging: &default-logging
 services:
   rqbit-mcp:
     container_name: rqbit-mcp
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    build: .
     image: rqbit-mcp
     restart: unless-stopped
     ports:
-      - 8765:8000
+      - 8000:8000
     env_file:
-      - ../.env
+      - .env
     <<: [*default-logging]
     network_mode: host
 
@@ -37,11 +35,7 @@ services:
     #  - 3030:3030 # HTTP API port
     #  - 4240:4240 # TCP/uTP BitTorrent port
     env_file:
-      - ../.env
-    environment:
-      RQBIT_UPNP_SERVER_ENABLE: true
-      RQBIT_UPNP_SERVER_FRIENDLY_NAME: rqbit-docker
-      RQBIT_HTTP_API_LISTEN_ADDR: 0.0.0.0:3030
+      - .env
     volumes:
       - rqbit_db:/home/rqbit/db
       - rqbit_cache:/home/rqbit/cache
