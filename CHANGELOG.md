@@ -2,11 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🚀 Features
+
+- Add URL detection and overwrite flag to torrent addition endpoint
+
+### 📚 Documentation
+
+- Add URL detection and overwrite flag feature to changelog
+
 ## [0.6.1] - 2025-07-03
 
 ### 🚀 Features
 
 - Extend download_torrent to support HTTP URLs and local files in addition to magnet links
+- Extend download_torrent to support HTTP URLs and local files
 
 ## [0.6.0] - 2025-07-03
 
