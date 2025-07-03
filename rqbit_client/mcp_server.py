@@ -26,12 +26,14 @@ async def list_torrents() -> str:
 
 
 @mcp.tool()
-async def download_torrent(magnet_link: str) -> str:
-    """Download a torrent from a magnet link."""
-    logger.info(f"Downloading torrent from magnet link: {magnet_link}")
-    result = await rqbit_client.add_torrent(magnet_link)
+async def download_torrent(magnet_link_or_url_or_path: str) -> str:
+    """Download a torrent from a magnet link, HTTP URL, or local file."""
+    logger.info(
+        f"Downloading torrent from magnet link/HTTP URL/local file: {magnet_link_or_url_or_path}"
+    )
+    result = await rqbit_client.add_torrent(magnet_link_or_url_or_path)
     if isinstance(result, str):
-        error = f"Error downloading torrent {magnet_link}: {result}"
+        error = f"Error downloading torrent {magnet_link_or_url_or_path}: {result}"
         logger.error(error)
         return error
     return dumps(result)
