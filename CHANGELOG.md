@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2025-07-03
+
+### 🚀 Features
+
+- Extend download_torrent to support HTTP URLs and local files in addition to magnet links
+
 ## [0.6.0] - 2025-07-03
 
 ### 📚 Documentation
@@ -12,6 +18,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Update dependencies, move/update docker setup, update readme
+- Update changelog for v0.6.0 with documentation and dependency updates
 
 ## [0.5.0] - 2025-06-30
 
