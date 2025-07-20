@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.7.0] - 2025-07-21
 
 ### 🚀 Features
 
@@ -11,6 +11,11 @@ All notable changes to this project will be documented in this file.
 ### 📚 Documentation
 
 - Add URL detection and overwrite flag feature to changelog
+
+### ⚙️ Miscellaneous Tasks
+
+- Update ruff to 0.12.2 and optimize CI workflow with uv caching
+- Update dependencies including authlib 1.6.1 and fastmcp 2.10.6
 
 ## [0.6.1] - 2025-07-03
 
