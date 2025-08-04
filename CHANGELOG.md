@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.7.0] - 2025-07-21
+## [0.7.1] - 2025-08-04
+
+### ⚙️ Miscellaneous Tasks
+
+- Update dependencies including anyio to 4.10.0 and cyclopts to 3.22.5
+
+## [0.7.0] - 2025-07-20
 
 ### 🚀 Features
 
@@ -16,6 +22,7 @@ All notable changes to this project will be documented in this file.
 
 - Update ruff to 0.12.2 and optimize CI workflow with uv caching
 - Update dependencies including authlib 1.6.1 and fastmcp 2.10.6
+- Prepare release v0.7.0 with updated dependencies and changelog
 
 ## [0.6.1] - 2025-07-03
 
