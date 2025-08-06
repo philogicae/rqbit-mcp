@@ -2,11 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0] - 2025-08-06
+
+### ⚙️ Miscellaneous Tasks
+
+- Update cryptography from 45.0.5 to 45.0.6
+- Bump rqbit-mcp version from 0.7.1 to 0.8.0
+- Add Docker Hub publishing workflow and Dockerfile for container releases
+- Bump fastmcp dependency from 2.11.1 to 2.11.2
+
 ## [0.7.1] - 2025-08-04
 
 ### ⚙️ Miscellaneous Tasks
 
 - Update dependencies including anyio to 4.10.0 and cyclopts to 3.22.5
+- Update dependencies including anyio 4.10.0 and cyclopts 3.22.5
 
 ## [0.7.0] - 2025-07-20
 
