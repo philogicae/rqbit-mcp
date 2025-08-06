@@ -1,0 +1,4 @@
+FROM python:3.13-alpine
+ARG VERSION
+RUN pip install rqbit-mcp==$VERSION
+EXPOSE 8000
