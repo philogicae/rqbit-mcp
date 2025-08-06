@@ -107,5 +107,5 @@ jobs:
           annotations: ${{ steps.meta.outputs.annotations }}
           provenance: true
           sbom: true
-          build-args: |
-            VERSION=${{ github.ref_name }}
+          push: true
+          build-args: VERSION=${{ github.ref_name }}
