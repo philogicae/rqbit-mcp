@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.1] - 2025-08-06
+
+### 🐛 Bug Fixes
+
+- Ci for docker hub
+
 ## [0.8.0] - 2025-08-06
 
 ### ⚙️ Miscellaneous Tasks
@@ -10,6 +16,8 @@ All notable changes to this project will be documented in this file.
 - Bump rqbit-mcp version from 0.7.1 to 0.8.0
 - Add Docker Hub publishing workflow and Dockerfile for container releases
 - Bump fastmcp dependency from 2.11.1 to 2.11.2
+- Update dependencies and add Docker Hub publishing workflow for v0.8.0
+- Enable Docker image push and upgrade pip in publish workflow
 
 ## [0.7.1] - 2025-08-04
 
