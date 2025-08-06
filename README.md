@@ -204,6 +204,11 @@ Configuration:
         "RQBIT_HTTP_BASIC_AUTH_USERPASS": "username:password" # (Optional) Only if setup in rqbit instance
       }
     },
+    # with docker (only requires docker)
+    "rqbit-mcp": {
+      "command": "docker",
+      "args": [ "run", "-i", "-p", "8000:8000", "-e", "RQBIT_URL=http://localhost:3030", "-e", "RQBIT_HTTP_BASIC_AUTH_USERPASS=username:password", "philogicae/rqbit-mcp:latest", "rqbit-mcp" ]
+    },
     # with sse transport (requires installation)
     "rqbit-mcp": {
       "serverUrl": "http://127.0.0.1:8000/sse"
