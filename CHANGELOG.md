@@ -2,11 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.2] - 2025-08-16
+
+### 📚 Documentation
+
+- Add docker installation instructions in README.md
+
+### ⚙️ Miscellaneous Tasks
+
+- Update deps
+
 ## [0.8.1] - 2025-08-06
 
 ### 🐛 Bug Fixes
 
 - Ci for docker hub
+
+### 📚 Documentation
+
+- Add changelog entry for Docker Hub CI fixes in v0.8.1
 
 ## [0.8.0] - 2025-08-06
 
