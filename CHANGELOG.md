@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.0] - 2025-08-25
+
+### ⚙️ Miscellaneous Tasks
+
+- Update dependencies
+
 ## [0.8.2] - 2025-08-16
 
 ### 📚 Documentation
@@ -11,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### ⚙️ Miscellaneous Tasks
 
 - Update deps
+- Update changelog for v0.8.2 with docker docs and dependency updates
 
 ## [0.8.1] - 2025-08-06
 
