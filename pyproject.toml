@@ -1,6 +1,6 @@
 [project]
 name = "rqbit-mcp"
-version = "0.8.2"
+version = "0.9.0"
 description = "Python wrapper & MCP server for the rqbit API"
 authors = [{ name = "philogicae" }]
 requires-python = ">=3.10,<4.0"
