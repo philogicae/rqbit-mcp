@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.1] - 2025-09-30
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 0.9.1
+
 ## [0.9.0] - 2025-08-25
 
 ### ⚙️ Miscellaneous Tasks
 
 - Update dependencies
+- Update changelog for v0.9.0 release with dependency updates
 
 ## [0.8.2] - 2025-08-16
 
