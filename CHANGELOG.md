@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.2] - 2025-11-28
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump version to 0.9.2
+
 ## [0.9.1] - 2025-09-30
 
 ### ⚙️ Miscellaneous Tasks
 
 - Bump version to 0.9.1
+- Bump version to 0.9.1 and update changelog
 
 ## [0.9.0] - 2025-08-25
 
