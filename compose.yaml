@@ -24,12 +24,12 @@ services:
       - 8000:8000
     env_file:
       - .env
-    <<: [*default-logging]
+    <<: [ *default-logging ]
     network_mode: host
 
   rqbit:
     container_name: rqbit
-    image: ikatson/rqbit:latest
+    image: ikatson/rqbit:main
     restart: unless-stopped
     #ports: # Not needed on host
     #  - 3030:3030 # HTTP API port
@@ -40,7 +40,7 @@ services:
       - rqbit_db:/home/rqbit/db
       - rqbit_cache:/home/rqbit/cache
       - /media:/home/rqbit/downloads # change /media to your download directory
-    <<: [*default-dns, *default-logging]
+    <<: [ *default-dns, *default-logging ]
     network_mode: host # required for UPnP
 
 volumes:

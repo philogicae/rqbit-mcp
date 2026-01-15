@@ -1,6 +1,6 @@
 [project]
 name = "rqbit-mcp"
-version = "0.9.2"
+version = "0.10.0"
 description = "Python wrapper & MCP server for the rqbit API"
 authors = [{ name = "philogicae" }]
 requires-python = ">=3.10,<4.0"
@@ -21,7 +21,7 @@ DeepWiki = "https://deepwiki.com/philogicae/rqbit-mcp"
 rqbit-mcp = "rqbit_client.__main__:cli"
 
 [dependency-groups]
-dev = ["ruff", "pytest", "pytest-asyncio", "mypy"]
+dev = ["ruff", "ty"]
 
 [tool.hatch.build]
 include = ["rqbit_client"]

@@ -109,7 +109,7 @@ class RqbitClient:
     async def stream_logs(self) -> AsyncGenerator[bytes, None] | str:
         """Continuously stream logs."""
         async for chunk in self._safe_stream_request("GET", "/stream_logs"):  # type: ignore
-            yield chunk  # type: ignore
+            yield chunk
 
     async def set_rust_log(self, log_level: str) -> None | str:
         """Set RUST_LOG post-launch for debugging."""

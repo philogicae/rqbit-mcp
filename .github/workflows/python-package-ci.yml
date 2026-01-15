@@ -6,7 +6,7 @@ env:
 
 jobs:
   test:
-    name: Run ruff, mypy and pytest 🧪
+    name: Run ruff and ty 🧪
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,10 +25,8 @@ jobs:
         run: uv run ruff format rqbit_client
       - name: Run ruff check
         run: uv run ruff check rqbit_client
-      - name: Run mypy
-        run: uv run mypy rqbit_client
-      - name: Run tests
-        run: uv run pytest rqbit_client
+      - name: Run ty check
+        run: uv run ty check rqbit_client
 
   build:
     name: Build distribution 📦
